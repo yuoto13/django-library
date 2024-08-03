@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
+from django.utils import timezone
 
 class CustomUserManager(BaseUserManager):
     def create_user(self, username, email=None, password=None, **extra_fields):
@@ -36,8 +37,8 @@ class Book(models.Model):
     title = models.CharField(max_length=200, verbose_name='Название')
     author = models.CharField(max_length=200, verbose_name='Автор')
     genre = models.CharField(max_length=100, verbose_name='Жанр')
+    link = models.URLField(null=True, blank=True, verbose_name='Ссылка')
     available = models.BooleanField(default=True, verbose_name='Доступна')
-    link = models.URLField(max_length=200, blank=True, null=True, verbose_name='Ссылка на книгу')  # Добавлено поле для ссылки на книгу
 
     class Meta:
         verbose_name = 'Книга'
@@ -58,3 +59,9 @@ class BorrowedBook(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.book.title}"
+
+    def days_borrowed(self):
+        if self.returned_date:
+            return (self.returned_date - self.borrowed_date).days
+        else:
+            return (timezone.now() - self.borrowed_date).days
