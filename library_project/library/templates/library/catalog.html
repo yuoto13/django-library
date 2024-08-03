@@ -14,7 +14,12 @@
     <tbody>
         {% for book in books %}
         <tr>
-            <td>{{ book.title }}</td>
+            <td>
+                {{ book.title }}
+                <button class="btn btn-link" onclick="copyToClipboard('{{ book.title }}')" title="Копировать">
+                    <i class="fas fa-copy"></i>
+                </button>
+            </td>
             <td>{{ book.author }}</td>
             <td>{{ book.genre }}</td>
             <td>
@@ -28,4 +33,14 @@
         {% endfor %}
     </tbody>
 </table>
+
+<script>
+function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(function() {
+        alert('Название книги скопировано в буфер обмена');
+    }, function(err) {
+        console.error('Ошибка копирования: ', err);
+    });
+}
+</script>
 {% endblock %}
