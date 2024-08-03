@@ -1,41 +1,33 @@
-from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 
 class User(AbstractUser):
-    ROLES = (
-        ('librarian', 'Librarian'),
-        ('reader', 'Reader'),
-    )
-    role = models.CharField(max_length=10, choices=ROLES)
-    first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=30)
-    address = models.TextField()
-
-    groups = models.ManyToManyField(
-        'auth.Group',
-        related_name='library_users',
-        blank=True,
-        help_text=('The groups this user belongs to. A user will get all permissions '
-                   'granted to each of their groups.'),
-        verbose_name=('groups'),
-    )
-    user_permissions = models.ManyToManyField(
-        'auth.Permission',
-        related_name='library_user_permissions',
-        blank=True,
-        help_text=('Specific permissions for this user.'),
-        verbose_name=('user permissions'),
-    )
+    class Meta:
+        verbose_name = 'Пользователь'
+        verbose_name_plural = 'Пользователи'
 
 class Book(models.Model):
-    title = models.CharField(max_length=255)
-    author = models.CharField(max_length=255)
-    genre = models.CharField(max_length=255)
-    available = models.BooleanField(default=True)
+    title = models.CharField(max_length=200, verbose_name='Название')
+    author = models.CharField(max_length=200, verbose_name='Автор')
+    genre = models.CharField(max_length=100, verbose_name='Жанр')
+    available = models.BooleanField(default=True, verbose_name='Доступна')
+
+    class Meta:
+        verbose_name = 'Книга'
+        verbose_name_plural = 'Книги'
+
+    def __str__(self):
+        return self.title
 
 class BorrowedBook(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    book = models.ForeignKey(Book, on_delete=models.CASCADE)
-    borrowed_date = models.DateTimeField(auto_now_add=True)
-    returned_date = models.DateTimeField(null=True, blank=True)
-    
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь')
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, verbose_name='Книга')
+    borrowed_date = models.DateTimeField(auto_now_add=True, verbose_name='Дата получения')
+    returned_date = models.DateTimeField(null=True, blank=True, verbose_name='Дата возврата')
+
+    class Meta:
+        verbose_name = 'Взятая книга'
+        verbose_name_plural = 'Взятыые книги'
+
+    def __str__(self):
+        return f"{self.user.username} - {self.book.title}"
