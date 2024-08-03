@@ -1,0 +1,12 @@
+<!-- library/templates/library/home.html -->
+{% extends 'library/base.html' %}
+
+{% block content %}
+<div class="jumbotron text-center">
+    <h1 class="display-4">Добро пожаловать в библиотеку</h1>
+    <p class="lead">Пожалуйста, <a href="{% url 'register' %}">зарегистрируйтесь</a> или <a href="{% url 'login' %}">войдите</a>, чтобы продолжить.</p>
+    <hr class="my-4">
+    <p>Откройте для себя мир знаний и развлечений с нашей обширной коллекцией книг.</p>
+    <a class="btn btn-primary btn-lg" href="{% url 'catalog' %}" role="button">Просмотреть каталог</a>
+</div>
+{% endblock %}
