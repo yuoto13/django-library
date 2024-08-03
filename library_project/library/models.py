@@ -37,6 +37,7 @@ class Book(models.Model):
     author = models.CharField(max_length=200, verbose_name='Автор')
     genre = models.CharField(max_length=100, verbose_name='Жанр')
     available = models.BooleanField(default=True, verbose_name='Доступна')
+    link = models.URLField(max_length=200, blank=True, null=True, verbose_name='Ссылка на книгу')  # Добавлено поле для ссылки на книгу
 
     class Meta:
         verbose_name = 'Книга'
@@ -57,4 +58,3 @@ class BorrowedBook(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.book.title}"
-    

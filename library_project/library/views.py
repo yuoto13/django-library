@@ -1,3 +1,5 @@
+# library/views.py
+
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from .forms import CustomUserCreationForm
@@ -56,7 +58,6 @@ def borrow_book(request, book_id):
         book.save()
     return redirect('catalog')
 
-@login_required
 def return_book(request, book_id):
     borrowed_books = BorrowedBook.objects.filter(book_id=book_id, user=request.user, returned_date__isnull=True)
     for borrowed_book in borrowed_books:
@@ -71,3 +72,14 @@ def return_book(request, book_id):
 def debtors_list(request):
     debtors = BorrowedBook.objects.filter(returned_date__isnull=True).select_related('user', 'book')
     return render(request, 'library/debtors_list.html', {'debtors': debtors})
+
+def return_book(request, book_id):
+    try:
+        borrowed_book = BorrowedBook.objects.get(book_id=book_id, user=request.user, returned_date__isnull=True)
+        borrowed_book.returned_date = timezone.now()
+        borrowed_book.book.available = True
+        borrowed_book.book.save()
+        borrowed_book.save()
+    except BorrowedBook.DoesNotExist:
+        pass
+    return redirect('my_books')
