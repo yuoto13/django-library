@@ -1,4 +1,5 @@
 {% extends 'library/base.html' %}
+{% load custom_filters %}
 
 {% block content %}
 <h2>Мои книги</h2>
@@ -15,8 +16,8 @@
         {% for borrowed_book in borrowed_books %}
         <tr>
             <td>{{ borrowed_book.book.title }}</td>
-            <td>{{ borrowed_book.borrowed_date }}</td>
-            <td>{{ borrowed_book.borrowed_date|date:"Y-m-d" }}</td>
+            <td>{{ borrowed_book.borrowed_date|date:"d.m.Y" }}</td>
+            <td>{{ borrowed_book.borrowed_date|time_since_days }}</td>
             <td><a href="{% url 'return_book' borrowed_book.book.id %}" class="btn btn-danger">Вернуть</a></td>
         </tr>
         {% endfor %}

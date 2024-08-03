@@ -1,5 +1,5 @@
-<!-- library/templates/library/home.html -->
 {% extends 'library/base.html' %}
+{% load static %}
 
 {% block content %}
 <div class="jumbotron text-center">
@@ -7,6 +7,6 @@
     <p class="lead">Пожалуйста, <a href="{% url 'register' %}">зарегистрируйтесь</a> или <a href="{% url 'login' %}">войдите</a>, чтобы продолжить.</p>
     <hr class="my-4">
     <p>Откройте для себя мир знаний и развлечений с нашей обширной коллекцией книг.</p>
-    <a class="btn btn-primary btn-lg" href="{% url 'catalog' %}" role="button">Просмотреть каталог</a>
+    <img src="{% static 'images/cartoon_reader.png' %}" alt="Читающий мультяшный человечек" class="img-fluid small-image">
 </div>
 {% endblock %}
