@@ -100,4 +100,4 @@ python manage.py runserver
 ### Шаблоны
 
 - Шаблоны расположены в директории `library/templates/library`.
-- Настройте HTML и CSS для изменения внешнего вида приложения.
+
